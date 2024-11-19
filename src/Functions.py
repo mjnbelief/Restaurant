@@ -1,9 +1,21 @@
+import os
+import platform
 from Menu import MenuOption
-# import consolemenu as CM
-# from consolemenu import *
-# from consolemenu.items import *
-from ConsoleMenuCostumize import *
 import json
+import consolemenu as CM
+from borders import frame
+
+######################
+screen = CM.Screen()
+
+selected_language = {}
+menu_items: list[MenuOption] = []
+
+def lang(text) -> str:
+    try: 
+        return selected_language[text]
+    except:
+        return f"[{text}]"
 
 #Convert Json file to MenuOption Object
 def JosnToMenuOption(json) -> list[MenuOption]:
@@ -15,37 +27,70 @@ def JosnToMenuOption(json) -> list[MenuOption]:
 def GetMenu():
     with open(r".\Include\strings\Menu.json") as menu_json:
         menu = json.load(menu_json)
-    a =  JosnToMenuOption(menu)
-    return a
+    return JosnToMenuOption(menu)
 
-def ShowMenu():
-    menu_items = GetMenu()
+# Get item and added to the card
+def GetBySelectedItemText(text: str):
+        item = str.strip(text[0:-5]) # remove price and spaces from text
+        matches = next(x for x in menu_items if x.Item == item)
 
-    pizzas = []
-    pastas = []
-    desserts = []
-    trinks = []
+        while matches.Quantity < 1:
+            txt_count = CM.PromptUtils(screen).input(f"{lang("Quantity")}: ")
+            if txt_count.input_string.isdigit() and int(txt_count.input_string) > 0:
+                matches.Quantity = int(txt_count.input_string)
+                matches.IsSelected = True
+                #notify
 
-    for item in menu_items:
-        if item.Category == "Pizza":
-            pizzas.append(str(item))
-        elif item.Category == "Pasta":
-            pastas.append(str(item))
-        elif item.Category == "Dessert":
-            desserts.append(str(item))
-        elif item.Category == "Trink":
-            trinks.append(str(item))
+        ShowCart()
 
-    console_menu = ConsoleMenu("Menu", "Welcome to ReDI food")
 
-    submenu_pizza = SubmenuItemCustom("Pizza", SelectionMenu(pizzas, "Pizza"), console_menu)
-    submenu_pasta = SubmenuItemCustom("Pasta", SelectionMenu(pastas, "Pasta"), console_menu)
-    submenu_dessert = SubmenuItemCustom("Dessert", SelectionMenu(desserts, "Dessert"), console_menu)
-    submenu_trink = SubmenuItemCustom("Trink", SelectionMenu(trinks, "Trink"), console_menu)
+def ShowCart():
+    ClearTerminal()
+    Cart = [x for x in menu_items if x.IsSelected == True] 
+    
+    cart_view = [(f"{lang("MyOrders")}","88;173;197","center"),("")]
+    if len(Cart) > 0:
+        cart_view.append((f"Name{25 * " "}Price\tQuantity","234;91;37"))
+        for item in Cart:
+            cart_view.append(f"{Cart.index(item) + 1} - "  + item.CartView)
+        cart_view.append("")
+        cart_view.append((lang("DeleteNote"),"234;91;37"))
+    else:
+        cart_view.append((lang("EmptyCart"),"234;91;37"))
 
-    console_menu.append_item(submenu_pizza)
-    console_menu.append_item(submenu_pasta)
-    console_menu.append_item(submenu_dessert)
-    console_menu.append_item(submenu_trink)
+    PrintFrame(cart_view)
+    txt_delete = CM.PromptUtils(screen).input(f"{lang("EnterToContinue")}")
 
-    console_menu.show()
+    if str.isdigit(txt_delete.input_string):
+        try:
+            cart_item = Cart.pop(int(txt_delete.input_string) - 1)
+            cart_item.Unselect()
+        except:
+            #notify
+            print("sad")
+
+        ShowCart()
+
+
+# Print with border
+def PrintFrame(text):
+    frame(text, 
+          colour=37, 
+          text_background=0, 
+          frame_colour=None, 
+          frame_background=None, 
+          frame_style="single", 
+          alignment="left", 
+          display="left", 
+          spacing=2,
+          min_width=80,
+          max_width=80, 
+          window="print")
+
+#Call the platform specific function to clear the terminal: cls on windows, reset otherwise
+def ClearTerminal():
+    if platform.system().lower() == "windows":
+        os.system('cls')
+    else:
+        os.system('reset')
+        

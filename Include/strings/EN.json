@@ -1,6 +1,18 @@
 {
-    "Welcome" : "Welcome"
-    
+    "Welcome" : "Welcome to ReDI Restaurant!",
+    "Menu":"Menu",
+    "Name":"Name",
+    "Price":"Price",
+    "Quantity":"Quantity",
+    "Pizzas":"Pizzas",
+    "Pastas":"Pastas",
+    "Desserts":"Desserts",
+    "Drinks":"Drinks",
+    "MyOrders":"My Orders",
+    "Checkout":"Checkout",
+    "EmptyCart":"Your Cart is Empty!",
+    "EnterToContinue":"Press [Enter] to continue",
+    "DeleteNote":"To delete an item, enter the item number and press [Enter]"
 
 
 }

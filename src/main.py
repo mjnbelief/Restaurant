@@ -1,24 +1,38 @@
 import json
-import Functions
-from os import system
-
-text = {}
-lang_path = ""
+from Functions import *
+import Functions as fun
+from ConsoleMenuCostumize import *
 
 """ Language """
-# Select Language
-while lang_path == "":
-    lang = input("Welcome to ReDI Restaurant!\n Please choose your language:\n 1.English\n 2.Deutsch\n")
-    if lang == "1" or lang == "English":
-        lang_path = r".\Include\strings\EN.json"
-    elif lang == "2" or lang == "Deutsch":
-        lang_path = r".\Include\strings\DE.json"
+def SelectLanguage():
+    # Select Language
+    lang_path = ""
+    while lang_path == "":
+        PrintFrame(["Please choose your language:","1 - English","2 - Deutsch"])
+        lang = input(">> ")
+        
+        if lang == "1" or lang == "English":
+            lang_path = r".\Include\strings\EN.json"
+        elif lang == "2" or lang == "Deutsch":
+            lang_path = r".\Include\strings\DE.json"
 
-# Import language pack 
-with open(lang_path) as json_file:
-    text = json.load(json_file)
+    # Import language pack 
+    try:
+        with open(lang_path) as json_file:
+            fun.selected_language = json.load(json_file)
 
-system('cls')  # clears stdout
+        ClearTerminal()
+    except OSError:
+        PrintFrame(["Language file not found!","Please try again."])
 """ End Language """
 
-Functions.ShowMenu()
+def main():
+    SelectLanguage()
+    
+    fun.menu_items = GetMenu()
+
+    ShowMenu(fun.menu_items)
+
+if __name__ == '__main__':
+    main()
+    
