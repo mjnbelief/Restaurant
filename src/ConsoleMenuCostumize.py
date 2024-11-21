@@ -29,19 +29,28 @@ def ShowMenu(menu_items):
         elif item.Category == "Drink":
             trinks.append(str(item))
 
-    console_menu = ConsoleMenu(lang("Menu"), lang("Welcome"), exit_option_text=lang("Checkout"))
+    console_menu = ConsoleMenu(lang("Menu"), lang("Welcome"), show_exit_option= False)
 
-    submenu_pizza = SubmenuItemCustom(lang("Pizzas"), SelectionMenu(pizzas, lang("Pizzas")), console_menu)
-    submenu_pasta = SubmenuItemCustom(lang("Pastas"), SelectionMenu(pastas, lang("Pastas")), console_menu)
-    submenu_dessert = SubmenuItemCustom(lang("Desserts"), SelectionMenu(desserts, lang("Desserts")), console_menu)
-    submenu_trink = SubmenuItemCustom(lang("Drinks"), SelectionMenu(trinks, lang("Drinks")), console_menu)
-
-    submenu_trink = SubmenuItemCustom(lang("Drinks"), SelectionMenu(trinks, lang("Drinks")), console_menu)
+    submenu_pizza = SubmenuItemCustom(lang("Pizzas"), 
+                    SelectionMenu(pizzas, lang("Pizzas"), exit_option_text=lang("ReturnToMain")), 
+                    console_menu)
+    submenu_pasta = SubmenuItemCustom(lang("Pastas"), 
+                    SelectionMenu(pastas, lang("Pastas"), exit_option_text=lang("ReturnToMain")), 
+                    console_menu)
+    submenu_dessert = SubmenuItemCustom(lang("Desserts"), 
+                      SelectionMenu(desserts, lang("Desserts"), exit_option_text=lang("ReturnToMain")), 
+                      console_menu)
+    submenu_trink = SubmenuItemCustom(lang("Drinks"), 
+                    SelectionMenu(trinks, lang("Drinks"), exit_option_text=lang("ReturnToMain")), 
+                    console_menu)
+    submenu_trink = SubmenuItemCustom(lang("Drinks"), 
+                    SelectionMenu(trinks, lang("Drinks"), exit_option_text=lang("ReturnToMain")), 
+                    console_menu)
 
     console_menu.append_item(submenu_pizza)
     console_menu.append_item(submenu_pasta)
     console_menu.append_item(submenu_dessert)
     console_menu.append_item(submenu_trink)
-    console_menu.append_item(FunctionItem("MyOrders",ShowCart))
+    console_menu.append_item(FunctionItem(lang("MyOrders"),ShowCart))
 
     console_menu.show()

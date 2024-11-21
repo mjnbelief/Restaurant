@@ -3,15 +3,21 @@
     "Menu":"Menu",
     "Name":"Name",
     "Price":"Price",
+    "TotalPrice":"Total price",
     "Quantity":"Quantity",
+    "DesiredQuantity":"Please enter the desired quantity",
     "Pizzas":"Pizzas",
     "Pastas":"Pastas",
     "Desserts":"Desserts",
     "Drinks":"Drinks",
     "MyOrders":"My Orders",
     "Checkout":"Checkout",
+    "CheckoutNote":"To proceed to checkout, enter [0] and press [Enter]",
+    "CheckoutConfirmation":"Proceed to checkout?",
+    "ReturnToMain":"Return to Main Menu",
     "EmptyCart":"Your Cart is Empty!",
     "EnterToContinue":"Press [Enter] to continue",
+    "ErrorOccurred":"An error occurred, please try again.",
     "DeleteNote":"To delete an item, enter the item number and press [Enter]"
 
 

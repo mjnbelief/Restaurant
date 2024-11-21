@@ -3,14 +3,20 @@
     "Menu":"Speisekarte",
     "Name":"Name",
     "Price":"Preis",
+    "TotalPrice":"Gesamtpreis",
     "Quantity":"Menge",
+    "DesiredQuantity":"Bitte geben Sie die gewünschte Menge ein",
     "Pizzas":"Pizzen",
     "Pastas":"Pasta",
     "Desserts":"Desserts",
     "Drinks":"Getränke",
     "MyOrders":"Meine Bestellungen",
     "Checkout":"Bezahlen",
+    "CheckoutNote":"**Um mit dem Checkout fortzufahren, geben Sie [0] ein und drüchen Sie [Enter]",
+    "CheckoutConfirmation":"Weiter zum Checkout?",
+    "ReturnToMain":"zurück zum Hauptmenü",
     "EmptyCart":"Die Bestellungen ist leer!",
     "EnterToContinue":"Drücken Sie [Enter], um fortyufahren",
-    "DeleteNote":"Um eine Artikel zu löschen, geben Sie die Artikelnummer ein und drüchen Sie [Enter]"
+    "ErrorOccurred":"Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut.",
+    "DeleteNote":"**Um eine Artikel zu löschen, geben Sie die Artikelnummer ein und drüchen Sie [Enter]"
 }
