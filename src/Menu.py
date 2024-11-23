@@ -23,4 +23,3 @@ class MenuOption:
     def Unselect(self):
         self.Quantity = 0
         self.IsSelected = False
-        pass

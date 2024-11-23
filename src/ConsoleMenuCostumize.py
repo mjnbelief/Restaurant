@@ -1,56 +1,47 @@
 from collections.abc import Callable
+import threading
 from Functions import *
+import Functions as fun
 from consolemenu import *
 from consolemenu.items import *
 import consolemenu as CM
+from itertools import groupby
 
 class SubmenuItemCustom(SubmenuItem):
     def __init__(self, text: str | Callable[[], str], submenu: CM.ConsoleMenu, menu: CM.ConsoleMenu | None = None, should_exit: bool = False, menu_char: str | None = None) -> None:
         super().__init__(text, submenu, menu, should_exit, menu_char)
 
+        
+    def remove_epilogue_text(self):
+            self.menu.epilogue_text = None
+            
     def get_return(self):
         if self.submenu.returned_value != None:
-            GetBySelectedItemText(self.submenu.selected_item.text)
+            selected_item = self.submenu.selected_item.text
+            if selected_item.Quantity > 0:
+                self.menu.epilogue_text = f"*'{selected_item.Item}' {lang("DublicateItem")}"
+            else: 
+                SetQuantity(selected_item)
+            threading.Timer(3.0, self.remove_epilogue_text).start()
         return self.menu.returned_value
 
-def ShowMenu(menu_items):
-    pizzas = []
-    pastas = []
-    desserts = []
-    trinks = []
+def ShowMenu(menu_items: list[MenuOption]):
 
-    for item in menu_items:
-        if item.Category == "Pizza":
-            pizzas.append(str(item))
-        elif item.Category == "Pasta":
-            pastas.append(str(item))
-        elif item.Category == "Dessert":
-            desserts.append(str(item))
-        elif item.Category == "Drink":
-            trinks.append(str(item))
+    fun.redi_console_menu = ConsoleMenu(lang("Menu"), lang("Welcome"),show_exit_option= True)
 
-    console_menu = ConsoleMenu(lang("Menu"), lang("Welcome"), show_exit_option= False)
+    """
+        Group by Category -> (Category name:string, menu items:list[MenuOption])
+    """ 
+    grouped_by_Category = [(k, list(g)) for k, g in groupby(menu_items, lambda x: x.Category)]
+    
+    for group in grouped_by_Category:
+        pizzas = group[1]
+        submenu_pizza = SubmenuItemCustom(lang(group[0]), 
+                                          SelectionMenu(pizzas, lang(group[0]), exit_option_text=lang("ReturnToMain")), 
+                                          fun.redi_console_menu)
+        fun.redi_console_menu.append_item(submenu_pizza)
 
-    submenu_pizza = SubmenuItemCustom(lang("Pizzas"), 
-                    SelectionMenu(pizzas, lang("Pizzas"), exit_option_text=lang("ReturnToMain")), 
-                    console_menu)
-    submenu_pasta = SubmenuItemCustom(lang("Pastas"), 
-                    SelectionMenu(pastas, lang("Pastas"), exit_option_text=lang("ReturnToMain")), 
-                    console_menu)
-    submenu_dessert = SubmenuItemCustom(lang("Desserts"), 
-                      SelectionMenu(desserts, lang("Desserts"), exit_option_text=lang("ReturnToMain")), 
-                      console_menu)
-    submenu_trink = SubmenuItemCustom(lang("Drinks"), 
-                    SelectionMenu(trinks, lang("Drinks"), exit_option_text=lang("ReturnToMain")), 
-                    console_menu)
-    submenu_trink = SubmenuItemCustom(lang("Drinks"), 
-                    SelectionMenu(trinks, lang("Drinks"), exit_option_text=lang("ReturnToMain")), 
-                    console_menu)
+    fun.redi_console_menu.append_item(FunctionItem(lang("MyOrders"),ShowCart))
 
-    console_menu.append_item(submenu_pizza)
-    console_menu.append_item(submenu_pasta)
-    console_menu.append_item(submenu_dessert)
-    console_menu.append_item(submenu_trink)
-    console_menu.append_item(FunctionItem(lang("MyOrders"),ShowCart))
-
-    console_menu.show()
+    fun.redi_console_menu.start()
+    fun.redi_console_menu.join()

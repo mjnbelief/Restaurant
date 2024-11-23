@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Title</title>
+        <style>
+            body{
+                text-align: center;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 12px;
+            }
+            .head p span{
+                display: block;
+                font-size: 11px;
+            }
+            .main li{
+                display: inline-block;
+                width: 33%;
+            }
+            .main table{
+                display: inline-block;
+            }
+            th{
+                border: 1px solid black;
+                padding: 5px 10px;
+                background-color: #ea5b25;
+                color: white;
+            }
+            td{
+                border: 1px solid black;
+                padding: 5px 10px;
+            }
+            .left{
+                text-align: left;
+            }
+            .no-border{
+                border: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="head">
+            <h1 style="font-family: cursive; color: #ea5b25;">Receipt</h1>
+            <img width="200px" src="redi_restaurant_logo.jpg">
+            <p>
+                <b>Delicacies From the ReDI</b><br>
+                Rosenheimer Str. 139/6. Stock, 81671 München<br>
+                0176 84502747<br>
+                www.redi-school.org/munich | info@redi-school.org
+            </p>
+            <h3 style="font-family: cursive; color: #58adc5;">Authentic Italian Food At its Finest!</h3>
+        </div>
+        <table style="display: inline-block;">
+            <tr>
+                <td class="no-border">Receipt No.: <span style="font-weight: bold;" id="ReceiptNo">RR_101</span></td>
+                <td class="no-border">Date: <span style="font-weight: bold;" id="Date">02-02-2002</span></td>
+                <td class="no-border">Time: <span style="font-weight: bold;" id="Time">10:10:23</span></td>
+            </tr>
+        </table>
+        <div class="main">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="left" style="width: 50%;">Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="Items"></tbody>
+                <tfoot>
+                    <tr>
+                        <td class="no-border" colspan="2"></td>
+                        <td>Total Price</td>
+                        <td id="TotalPrice"></td>
+                    </tr>
+                    <tr>
+                        <td class="no-border" colspan="2"></td>
+                        <td>Tax (19%)</td>
+                        <td id="Tax"></td>
+                    </tr>
+                    <tr>
+                        <td class="no-border" colspan="2"></td>
+                        <td>Net Price</td>  
+                        <td id="NetPrice"></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <h3 style="font-family: cursive;">Eat As much As You Like!</h3>
+        </div>
+    </body>
+</html>

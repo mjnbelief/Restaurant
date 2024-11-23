@@ -11,6 +11,7 @@ def PriceView(price:float) -> str:
     Returns:
         str: a string of price with nicer format and euro icon at the end
     """
+    
     return f"{round(price, 2)} €"
     
     
@@ -29,7 +30,7 @@ def PrintFrame(text, colour= 37, alignment= "left"):
           max_width=80, 
           window="print")
 
-#Call the platform specific function to clear the terminal: cls on windows, reset otherwise
+#clear the terminal: cls on windows, reset otherwise
 def ClearTerminal():
     if platform.system().lower() == "windows":
         os.system('cls')
