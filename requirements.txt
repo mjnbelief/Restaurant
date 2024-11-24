@@ -1,0 +1,4 @@
+beautifulsoup4==4.12.3
+borders==1.2.0
+console_menu==0.8.0
+xhtml2pdf==0.2.16

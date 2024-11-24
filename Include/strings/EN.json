@@ -1,4 +1,5 @@
 {
+    "Language" : "English",
     "Welcome" : "Welcome to ReDI Restaurant!",
     "Menu":"Menu",
     "Name":"Name",
@@ -19,7 +20,13 @@
     "EnterToContinue":"Press [Enter] to continue",
     "ErrorOccurred":"An error occurred, please try again.",
     "DublicateItem":"has already been added!!",
-    "DeleteNote":"To delete an item, enter the item number and press [Enter]"
+    "DeleteNote":"To delete an item, enter the item number and press [Enter]",
+    "DelicaciesText":"Delicacies From the ReDI",
+    "AuthenticText":"Authentic Italian Food At its Finest!",
+    "UnitPrice":"Unit Price",
+    "Tax":"Tax",
+    "NetPrice":"Net Price",
+    "EatText":"Eat As much As You Like!"
 
 
 }

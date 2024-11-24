@@ -196,7 +196,19 @@ def GenerateReceipt(cart: list[MenuOption]) -> str:
     
             date_time = datetime.datetime.now()
 
-            # find html element by id and change them 
+            # find html element by id and change the text (default: enlish)  
+            if lang("Language") == "German":
+                receipt_html.find("b", {"id": "Delicacies"}).string = lang("DelicaciesText")
+                receipt_html.find("h3", {"id": "Authentic"}).string = lang("AuthenticText")
+                receipt_html.find("th", {"id": "Quantity"}).string = lang("Quantity")
+                receipt_html.find("th", {"id": "UnitPrice"}).string = lang("UnitPrice")
+                receipt_html.find("th", {"id": "Price"}).string = lang("Price")
+                receipt_html.find("td", {"id": "TotalPriceText"}).string = lang("TotalPrice")
+                receipt_html.find("td", {"id": "TaxText"}).string = f"{lang("Tax")} (19%)"
+                receipt_html.find("td", {"id": "NetPriceText"}).string = lang("NetPrice")
+                receipt_html.find("h3", {"id": "EatText"}).string = lang("EatText")
+
+            # find html element by id and change the values 
             receipt_No = receipt_html.find("span", {"id": "ReceiptNo"})
             date = receipt_html.find("span", {"id": "Date"})
             time = receipt_html.find("span", {"id": "Time"})
