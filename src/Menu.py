@@ -16,9 +16,14 @@ class MenuOption:
     
     @property
     def CartView(self) -> str:
-        spaces = 25 - len(self.Item)
-        price_spaces = 11 - len(self.Price)
-        return f"{self.Item}{spaces * " "}{PriceView(float(self.Price))}{price_spaces * " "}{self.Quantity}"
+        try:
+            spaces = 25 - len(self.Item)
+            price_spaces = 11 - len(self.Price)
+            return f"{self.Item}{spaces * " "}{PriceView(float(self.Price))}{price_spaces * " "}{self.Quantity}"
+        except Exception as ex:
+            logger.error(f"can not run CartView\n{ex.args[0]}")
+            return self.Item
+
     
     def Unselect(self):
         self.Quantity = 0
