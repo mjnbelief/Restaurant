@@ -163,3 +163,5 @@ cython_debug/
 
 Receipts
 .vscode
+Scripts
+pyvenv.cfg

@@ -33,7 +33,7 @@ git clone https://github.com/mjnbelief/Restaurant
 
 Then install requirements :
 ```
-pip3 install –r requirements
+pip3 install –r requirements.txt
 ```
 
 ## Screenshots
