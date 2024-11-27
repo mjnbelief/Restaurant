@@ -1,18 +1,19 @@
-import json
-import random
-import datetime
-import threading
+import json, random, datetime, threading
+from pathlib import Path
 import consolemenu as CM
 from xhtml2pdf import pisa
 from Menu import MenuOption
 from bs4 import BeautifulSoup
 from GeneralFunctions import *
 
+
 screen = CM.Screen()
 
 redi_console_menu: CM.ConsoleMenu
 selected_language = {}
 menu_items: list[MenuOption] = []
+
+project_path = Path.cwd()
 
 def SelectLanguage() -> dict:
     """ 
@@ -23,18 +24,19 @@ def SelectLanguage() -> dict:
             dict: a dictionary containing the content or translations for the chosen language.
     """
     lang_path = ""
+    
     while lang_path == "":
         PrintFrame(["Please choose your language:","1 - English","2 - Deutsch"])
         lang = input(">> ")
         
         if lang == "1":
-            lang_path = r".\Include\strings\EN.json"
+            lang_path = project_path.joinpath("Include", "strings", "EN.json")
         elif lang == "2":
-            lang_path = r".\Include\strings\DE.json"
+            lang_path = project_path.joinpath("Include", "strings", "DE.json")
 
     # Import language file 
     try:
-        with open(lang_path, encoding="UTF-8") as json_file:
+        with open(str(lang_path), encoding="UTF-8") as json_file:
             return json.load(json_file)
 
         ClearTerminal()
@@ -85,11 +87,12 @@ def GetMenu() -> list[MenuOption]:
         Returns:
             list: list of MenuOption
     """
+    menu_path = project_path.joinpath("Include", "strings", "Menu.json")
     try:
-        with open(r".\Include\strings\Menu.json",encoding="UTF-8") as menu_json:
+        with open(str(menu_path), encoding="UTF-8") as menu_json:
             menu = json.load(menu_json)
     except OSError:
-        logger.error(f"can not open menu.json\n{OSError.strerror}")
+        logger.error(f"can not open Menu.json\n{OSError.strerror}")
 
     return JosnToMenuOption(menu)
 
@@ -191,7 +194,9 @@ def GenerateReceipt(cart: list[MenuOption]) -> str:
     """
     receipt_html = BeautifulSoup("", "html.parser")
     try:
-        with open(r".\Include\templates\Receipt.html",  encoding="UTF-8") as receipt_template:
+        receipt_html_path = project_path.joinpath("Include", "templates", "Receipt.html")
+        
+        with open(str(receipt_html_path),  encoding="UTF-8") as receipt_template:
             receipt_html = BeautifulSoup(receipt_template, "html.parser")
     
             date_time = datetime.datetime.now()
@@ -233,8 +238,8 @@ def GenerateReceipt(cart: list[MenuOption]) -> str:
             net_price.string = PriceView(tax_price + total)
 
         # save pdf at Receipts path
-        receipt_path = f".\\Receipts\\Receipt_{receipt_No.string}.pdf"
-        with open(receipt_path, "wb") as pdf_file:
+        receipt_path = project_path.joinpath("Receipts", f"Receipt_{receipt_No.string}.pdf")
+        with open(str(receipt_path), "wb") as pdf_file:
             pisa.CreatePDF(receipt_html.prettify(), dest=pdf_file)
     
     except OSError:
@@ -242,7 +247,7 @@ def GenerateReceipt(cart: list[MenuOption]) -> str:
     except Exception as ex:
         logger.error(f"can not generate receipt\n{ex.args[0]}")
 
-    return receipt_path
+    return str(receipt_path)
 
 def Checkout(Cart: list[MenuOption]):
     """ 
@@ -256,7 +261,7 @@ def Checkout(Cart: list[MenuOption]):
 
     receipt_path = GenerateReceipt(Cart)
 
-    os.system(receipt_path)
+    OpenFile(receipt_path)
 
     for item in menu_items:
         item.Unselect()

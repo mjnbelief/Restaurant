@@ -1,11 +1,11 @@
-from collections.abc import Callable
 import threading
-from Functions import *
 import Functions as fun
-from consolemenu import *
-from consolemenu.items import *
+from Functions import *
 import consolemenu as CM
+from consolemenu import *
 from itertools import groupby
+from consolemenu.items import *
+from collections.abc import Callable
 
 class SubmenuItemCustom(SubmenuItem):
     def __init__(self, text: str | Callable[[], str], submenu: CM.ConsoleMenu, menu: CM.ConsoleMenu | None = None, should_exit: bool = False, menu_char: str | None = None) -> None:

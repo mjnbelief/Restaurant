@@ -1,6 +1,4 @@
-import os
-import logging
-import platform
+import platform, subprocess, sys, logging, os
 from borders import frame
 
 logger = logging.getLogger("my_logger")
@@ -65,4 +63,25 @@ def ClearTerminal():
         os.system('cls')
     else:
         os.system('reset')
+
+
+def OpenFile(filename):
+    """ 
+    cross-platform file opening
+    This snippet covers Windows, MacOS and Unix-like systems (Linux, FreeBSD, Solaris...)
+
+    Args:
+        filename (str): filename or filepath of the file to be opened.
+
+    """
+    try:
+            
+        if platform.system().lower() == "windows":
+            os.startfile(filename)
+        else:
+            opener = "open" if sys.platform == "darwin" else "xdg-open"
+            subprocess.call([opener, filename])
+            
+    except Exception as ex:
+        logger.error(f"can not open the file\n{ex.args[0]}")
         
