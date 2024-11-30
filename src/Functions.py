@@ -13,7 +13,7 @@ redi_console_menu: CM.ConsoleMenu
 selected_language = {}
 menu_items: list[MenuOption] = []
 
-project_path = Path.cwd()
+project_path = Path(__file__).parents[1]
 
 def SelectLanguage() -> dict:
     """ 
@@ -200,7 +200,7 @@ def GenerateReceipt(cart: list[MenuOption]) -> str:
             receipt_html = BeautifulSoup(receipt_template, "html.parser")
     
             date_time = datetime.datetime.now()
-
+            
             # find html element by id and change the text (default: enlish)  
             if lang("Language") == "German":
                 receipt_html.find("b", {"id": "Delicacies"}).string = lang("DelicaciesText")
@@ -214,6 +214,8 @@ def GenerateReceipt(cart: list[MenuOption]) -> str:
                 receipt_html.find("h3", {"id": "EatText"}).string = lang("EatText")
 
             # find html element by id and change the values 
+            logo = receipt_html.find("img", {"id": "Logo"})
+            logo.attrs["src"] = str(project_path.joinpath("redi_restaurant_logo.jpg"))
             receipt_No = receipt_html.find("span", {"id": "ReceiptNo"})
             date = receipt_html.find("span", {"id": "Date"})
             time = receipt_html.find("span", {"id": "Time"})
@@ -238,6 +240,8 @@ def GenerateReceipt(cart: list[MenuOption]) -> str:
             net_price.string = PriceView(tax_price + total)
 
         # save pdf at Receipts path
+        project_path.joinpath("Receipts").mkdir(parents=True, exist_ok=True) # add Receipts folder if isn't exist
+
         receipt_path = project_path.joinpath("Receipts", f"Receipt_{receipt_No.string}.pdf")
         with open(str(receipt_path), "wb") as pdf_file:
             pisa.CreatePDF(receipt_html.prettify(), dest=pdf_file)
