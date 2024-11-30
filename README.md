@@ -19,6 +19,7 @@
 <ul>
     <li>Python --> 3.12.7+</li>
     <li>borders --> 1.2.0+</li>
+    <li>pathlib --> 1.0.1+</li>
     <li>xhtml2pdf --> 0.2.16+</li>
     <li>console_menu --> 0.8.0+</li>
     <li>beautifulsoup4 --> 4.12.3+</li>
